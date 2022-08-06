@@ -41,27 +41,24 @@ const ExpenseForm = (props) => {
     const submitHandler = (event) => {
         event.preventDefault();
 
-        // TODO: 여기서 상태값에 따라서 아래 출력되게 변경
-
         const enteredExpenseData = {
             title: enteredTitle,
             amount: enteredAmount,
             date: new Date(enteredDate),
         };
 
+        props.onSaveExpenseData(enteredExpenseData);
+
         setEnteredTitle('');
         setEnteredAmount('');
         setEnteredDate('');
-
-        props.onSaveExpenseData(enteredExpenseData);
     };
 
-    // render components
-    let inputFormComponents = (
-        <div className="new-expense__actions">
-            <button type="submit">Add Amount </button>
-        </div>
-    );
+    const cancelHandler = (event) => {
+        event.preventDefault();
+
+        props.onIsEditing();
+    };
 
     return (
         <form onSubmit={submitHandler}>
@@ -92,7 +89,8 @@ const ExpenseForm = (props) => {
                 </div>
             </div>
             <div className="new-expense__actions">
-                <button type="submit">Add Amount </button>
+                <button onClick={cancelHandler}>Cancel</button>
+                <button type="submit">Add Amount</button>
             </div>
         </form>
     );
