@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import classes from './NewUserForm.module.css';
+
+import Card from '../UI/Card';
 
 const NewUserForm = (props) => {
     const [userFormData, setUserFormData] = useState({
@@ -39,22 +42,23 @@ const NewUserForm = (props) => {
     };
 
     return (
-        <form onSubmit={onSubmitHandler}>
-            <div className="new-user__controls">
-                <div className="new-user__control">
-                    <label>Username</label>
-                    <input type="text" name="name" value={userFormData.name || ''} onChange={onChangeHandler} />
-                </div>
-                <div className="new-user__control">
-                    <label>Age (Years)</label>
-                    <input type="number" name="age" value={userFormData.age || ''} onChange={onChangeHandler} />
-                </div>
-            </div>
-            <div className="new-user__actions">
+        <Card className={classes.input}>
+            <form onSubmit={onSubmitHandler}>
+                <label htmlFor="username">Username</label>
+                <input
+                    className="input"
+                    id="username"
+                    type="text"
+                    name="name"
+                    value={userFormData.name || ''}
+                    onChange={onChangeHandler}
+                />
+                <label htmlFor="age">Age (Years)</label>
+                <input id="age" type="number" name="age" value={userFormData.age || ''} onChange={onChangeHandler} />
                 <button onClick={props.changeEditMode}>Cancel</button>
                 <button type="submit">Add User</button>
-            </div>
-        </form>
+            </form>
+        </Card>
     );
 };
 
