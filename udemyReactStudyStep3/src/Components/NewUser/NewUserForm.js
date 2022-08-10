@@ -18,13 +18,24 @@ const NewUserForm = (props) => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
+        props.changeEditMode();
+
+        // check value
+        if (userFormData.name.trim() === '') {
+            props.onChangeModal(1);
+            return;
+        }
+
+        if (userFormData.age < 0) {
+            props.onChangeModal(2);
+            return;
+        }
+
         props.onSaveUserData(userFormData);
         setUserFormData({
             name: '',
             age: '',
         });
-
-        props.changeEditMode();
     };
 
     return (

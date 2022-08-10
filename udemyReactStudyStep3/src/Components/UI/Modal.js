@@ -4,7 +4,18 @@ const Modal = (props) => {
         1: 'name error',
         2: 'age error',
     };
-    return <div>{error_msg.error_type}</div>;
+    console.log(error_msg[error_type]);
+
+    const canelHandler = () => {
+        props.onchangeModal();
+    };
+
+    return (
+        <div>
+            <p>{error_msg[error_type]}</p>
+            <button onClick={canelHandler}>cancel</button>
+        </div>
+    );
 };
 
 export default Modal;

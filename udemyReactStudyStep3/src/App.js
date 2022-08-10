@@ -31,7 +31,7 @@ function App() {
      * 1 : name error
      * 2 : age error
      */
-    const [isModal, setIsModal] = useState('false');
+    const [isModal, setIsModal] = useState(+0);
 
     const addUserListHandler = (user) => {
         setUserListObj((prevState) => {
@@ -39,8 +39,7 @@ function App() {
         });
     };
 
-    const changeModaHandler = (isModal) => {
-        // TODO: 이건 맞는지 체크 해야 함
+    const changeModalHandler = (isModal) => {
         if (!isModal) {
             isModal = 0;
         }
@@ -49,9 +48,9 @@ function App() {
 
     return (
         <div>
-            <NewUser onAddUser={addUserListHandler} onChangeModal={changeModaHandler} />
+            <NewUser onAddUser={addUserListHandler} onChangeModal={changeModalHandler} />
             <User users={userListObj} />
-            {isModal && <Modal isModal={isModal} />}
+            {isModal != 0 && <Modal onchangeModal={changeModalHandler} isModal={isModal} />}
         </div>
     );
 }

@@ -7,12 +7,6 @@ const NewUser = (props) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const saveUserHandler = (enteredUser) => {
-        // check value
-        if (enteredUser.name.trim() === '') {
-            props.onChangeModal(1);
-            return;
-        }
-
         let userData = {
             ...enteredUser,
             id: Math.random().toString(),
@@ -31,7 +25,13 @@ const NewUser = (props) => {
     return (
         <div>
             {!isEditing && <button onClick={isEditingHandler}>Add New User</button>}
-            {isEditing && <NewUserForm changeEditMode={isEditingHandler} onSaveUserData={saveUserHandler} />}
+            {isEditing && (
+                <NewUserForm
+                    onChangeModal={props.onChangeModal}
+                    changeEditMode={isEditingHandler}
+                    onSaveUserData={saveUserHandler}
+                />
+            )}
         </div>
     );
 };
