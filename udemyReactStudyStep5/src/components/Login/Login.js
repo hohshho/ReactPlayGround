@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import AuthContext from '../../store/auth-context';
 
 // 매개 변수 1. 최신 state, dispatch된 action
 const emailReducer = (state, action) => {
@@ -32,6 +33,8 @@ const Login = (props) => {
 
     const [emailState, dispatchEmail] = useReducer(emailReducer, { value: '', isValid: null });
     const [passwordState, dispatchPassword] = useReducer(passwordReducer, { value: '', isValid: null });
+
+    const authCtx = useContext(AuthContext);
 
     // State 안에 원하는 값을 가져와 변수로 만듬
     const { isValid: emailIsValid } = emailState;
@@ -71,7 +74,7 @@ const Login = (props) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        props.onLogin(emailState.value, passwordState.value);
+        authCtx.onLogin(emailState.value, passwordState.value);
     };
 
     return (
