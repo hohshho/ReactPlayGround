@@ -8,20 +8,20 @@ import useHttp from './hooks/use-https';
 function App() {
     const [tasks, setTasks] = useState([]);
 
-    const transformTasks = useCallback((tasksObj) => {
-        const loadedTasks = [];
-
-        for (const taskKey in tasksObj) {
-            loadedTasks.push({ id: taskKey, text: tasksObj[taskKey].text });
-        }
-
-        setTasks(loadedTasks);
-    });
-
-    const { isLoading, error, sendRequest: fetchTasks } = useHttp({ url: url }, transformTasks);
+    const { isLoading, error, sendRequest: fetchTasks } = useHttp();
 
     useEffect(() => {
-        fetchTasks();
+        const transformTasks = (tasksObj) => {
+            const loadedTasks = [];
+
+            for (const taskKey in tasksObj) {
+                loadedTasks.push({ id: taskKey, text: tasksObj[taskKey].text });
+            }
+
+            setTasks(loadedTasks);
+        };
+
+        fetchTasks({ url: url }, transformTasks);
     }, []);
 
     const taskAddHandler = (task) => {

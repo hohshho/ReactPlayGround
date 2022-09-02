@@ -1,13 +1,13 @@
 import { useCallback, useState } from 'react';
 
-const useHttp = (requestConfig, applyData) => {
+const useHttp = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
     // 1) 어떤 종류의 요청이든 가능하게
     // 2) 어떤 데이터 변환도 가능하게
     // 3) 로딩과 에러 상태 관리
-    const sendRequest = useCallback(async () => {
+    const sendRequest = useCallback(async (requestConfig, applyData) => {
         setIsLoading(true);
         setError(null);
         try {
@@ -27,7 +27,7 @@ const useHttp = (requestConfig, applyData) => {
             setError(err.message || 'Something went wrong!');
         }
         setIsLoading(false);
-    }, [requestConfig, applyData]);
+    }, []);
 
     return {
         isLoading,
