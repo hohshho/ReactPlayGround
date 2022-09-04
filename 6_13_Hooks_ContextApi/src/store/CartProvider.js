@@ -9,11 +9,9 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
     if (action.type === 'ADD') {
-        // concat으로 기존 배열에 값을 추가하면 새로운 객체로 값을 생성해서 이전 상태를 바꾸지 않아도 된다.
         const updatedTotalAmount = state.totalAmount + action.item.price * action.item.amount;
 
         const existingCartItemIndex = state.items.findIndex((item) => item.id === action.item.id);
-
         const existingCartItem = state.items[existingCartItemIndex];
         let updatedItems;
 
@@ -33,18 +31,15 @@ const cartReducer = (state, action) => {
             totalAmount: updatedTotalAmount,
         };
     }
-
     if (action.type === 'REMOVE') {
-        const existingCartItemIndex = state.items.findIndex((item) => item.id === action.item.id);
+        const existingCartItemIndex = state.items.findIndex((item) => item.id === action.id);
         const existingItem = state.items[existingCartItemIndex];
         const updatedTotalAmount = state.totalAmount - existingItem.price;
         let updatedItems;
-
         if (existingItem.amount === 1) {
             updatedItems = state.items.filter((item) => item.id !== action.id);
         } else {
             const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
-
             updatedItems = [...state.items];
             updatedItems[existingCartItemIndex] = updatedItem;
         }
@@ -53,6 +48,10 @@ const cartReducer = (state, action) => {
             items: updatedItems,
             totalAmount: updatedTotalAmount,
         };
+    }
+
+    if (action.type === 'CLEAR') {
+        return defaultCartState;
     }
 
     return defaultCartState;
@@ -69,11 +68,16 @@ const CartProvider = (props) => {
         dispatchCartAction({ type: 'REMOVE', id: id });
     };
 
+    const clearCartHandler = () => {
+        dispatchCartAction({ type: 'CLEAR' });
+    };
+
     const cartContext = {
         items: cartState.items,
         totalAmount: cartState.totalAmount,
         addItem: addItemToCartHandler,
         removeItem: removeItemFromCartHandler,
+        clearCart: clearCartHandler,
     };
 
     return <CartContext.Provider value={cartContext}>{props.children}</CartContext.Provider>;
