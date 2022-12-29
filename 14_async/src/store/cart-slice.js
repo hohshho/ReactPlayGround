@@ -43,5 +43,10 @@ const cartSlice = createSlice({
     },
 });
 
+// const { actions, reducer } = cartSlice
+// export const { addTodo } = actions
+
+// export default reducer
+
 export const cartActions = cartSlice.actions;
 export default cartSlice;
